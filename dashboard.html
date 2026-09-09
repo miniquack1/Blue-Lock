@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Lock - Central de Monitoreo</title>
+    <style>
+        /* BASE Y ESTRUCTURA GENERAL */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #060913; color: #ffffff; padding: 30px; overflow-x: hidden; }
+
+        .dash-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #00ff88; padding-bottom: 20px; margin-bottom: 30px; }
+        .dash-title h1 { font-size: 2rem; color: #00ff88; text-shadow: 0 0 10px rgba(0, 255, 136, 0.3); text-transform: uppercase; }
+        .status-badge { background-color: rgba(0, 255, 136, 0.1); border: 1px solid #00ff88; color: #00ff88; padding: 8px 15px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; }
+
+        .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 30px; }
+        .panel-box { background: #111625; border: 1px solid #1f293d; border-radius: 10px; padding: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .panel-box h3 { font-size: 1.2rem; text-transform: uppercase; color: #00d2ff; margin-bottom: 20px; border-bottom: 1px solid #1f293d; padding-bottom: 10px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #1a202c; font-size: 0.95rem; }
+        .stat-row span:last-child { font-weight: bold; color: #00ff88; }
+
+        /* DISEÑO DE LAS CÁMARAS CRT */
+        .panel-box-camaras { grid-column: span 2; }
+        .cam-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
+        .cam-feed {
+            background-color: #05141a; height: 140px; border-radius: 6px; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; font-size: 0.85rem; color: #00ff88; font-weight: bold;
+            position: relative; border: 2px solid #1f293d; overflow: hidden;
+            background-image: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%); background-size: 100% 4px;
+        }
+        .cam-feed::before { content: "● REC"; position: absolute; top: 10px; left: 12px; color: #ff2a5f; animation: parpadeo 1.2s infinite; }
+        .cam-label { margin-top: 10px; background: rgba(0, 0, 0, 0.6); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(0, 255, 136, 0.3); }
+        .estatica-efect { position: absolute; width: 100%; height: 100%; background: url('https://wikimedia.org'); opacity: 0.04; pointer-events: none; }
+        @keyframes parpadeo { 50% { opacity: 0; } }
+
+        /* SIMULADOR QUÍMICO */
+        .reaction-box { grid-column: span 3; background: linear-gradient(135deg, #111622 0%, #0d1b2a 100%); border: 2px dashed #00d2ff; }
+        .selector-container { display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
+        .selector-container select { padding: 12px 20px; background-color: #060913; border: 1px solid #00d2ff; color: #ffffff; border-radius: 6px; font-size: 1rem; }
+        .trigger-reaction-btn { background-color: #0052cc; color: white; border: none; padding: 12px 30px; font-weight: bold; text-transform: uppercase; border-radius: 6px; cursor: pointer; }
+        .trigger-reaction-btn:hover { background-color: #00ff88; color: #060913; }
+        .reaction-result-display { background-color: rgba(6, 9, 19, 0.8); border: 1px solid #1f293d; border-radius: 8px; padding: 20px; min-height: 80px; text-align: center; }
+
+        .logout-btn { display: inline-block; background: transparent; border: 2px solid #ff2a5f; color: #ff2a5f; padding: 12px 30px; text-decoration: none; font-weight: bold; border-radius: 5px; text-transform: uppercase; }
+        .logout-btn:hover { background: #ff2a5f; color: #ffffff; }
+    </style>
+</head>
+<body>
+
+    <div class="dash-header">
+        <div class="dash-title">
+            <h1>SISTEMA CENTRAL DE MONITOREO</h1>
+            <p style="color: #a0aec0; font-size: 0.9rem; margin-top: 4px;">Bienvenido, Operador Jefe: <strong>Jinpachi Ego</strong></p>
+        </div>
+        <div class="status-badge">CONEXIÓN ENCRIPTADA (ONLINE)</div>
+    </div>
+    <div class="dash-grid">
+        
+        <!-- PANEL DE CÁMARAS -->
+        <div class="panel-box panel-box-camaras">
+            <h3>Cámaras del Complejo en Tiempo Real</h3>
+            <div class="cam-grid">
+                <div class="cam-feed">
+                    <div class="estatica-efect"></div>
+                    <span style="font-size: 1.8rem; margin-bottom: 5px;">⚽</span>
+                    <div class="cam-label">CAM 01 - CAMPO BLOC Z</div>
+                </div>
+                <div class="cam-feed">
+                    <div class="estatica-efect"></div>
+                    <span style="font-size: 1.8rem; margin-bottom: 5px;">🥣</span>
+                    <div class="cam-label">CAM 02 - COMEDOR CENTRAL</div>
+                </div>
+                <div class="cam-feed">
+                    <div class="estatica-efect"></div>
+                    <span style="font-size: 1.8rem; margin-bottom: 5px;">🛌</span>
+                    <div class="cam-label">CAM 03 - DORMITORIOS</div>
+                </div>
+                <div class="cam-feed">
+                    <div class="estatica-efect"></div>
+                    <span style="font-size: 1.8rem; margin-bottom: 5px;">🏋️‍♂️</span>
+                    <div class="cam-label">CAM 04 - GIMNASIO NEL</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FLUJO BIOMÉTRICO -->
+        <div class="panel-box">
+            <h3>Análisis de Flujo Biométrico</h3>
+            <div class="stat-row"><span>Yoichi Isagi</span><span style="color: #00d2ff;">Metavisión: 94%</span></div>
+            <div class="stat-row"><span>Meguru Bachira</span><span>Estado Ego Trance</span></div>
+            <div class="stat-row"><span>Seishiro Nagi</span><span style="color: #ffbc00;">Inactividad Creativa</span></div>
+            <div class="stat-row"><span>Barou Shoei</span><span style="color: #ff2a5f;">Carga Agresiva Máxima</span></div>
+        </div>
+
+        <!-- GENERADOR DE REACCIONES QUÍMICAS -->
+        <div class="panel-box reaction-box">
+            <h3>Simulador de Reacciones Químicas (Sinergia de Goles)</h3>
+            <p style="color: #a0aec0; font-size: 0.9rem; margin-bottom: 20px;">Combina los egos de dos delanteros para calcular la probabilidad de romper la defensa enemiga.</p>
+            
+            <div class="selector-container">
+                <select id="jugador1">
+                    <option value="isagi">Yoichi Isagi</option>
+                    <option value="bachira">Meguru Bachira</option>
+                    <option value="nagi">Seishiro Nagi</option>
+                    <option value="barou">Shoei Barou</option>
+                </select>
+                <div style="font-size: 1.8rem; color: #00d2ff; font-weight: bold;">✖</div>
+                <select id="jugador2">
+                    <option value="bachira">Meguru Bachira</option>
+                    <option value="isagi">Yoichi Isagi</option>
+                    <option value="nagi">Seishiro Nagi</option>
+                    <option value="barou">Shoei Barou</option>
+                </select>
+                <button class="trigger-reaction-btn" onclick="calcularSinergia()">Provocar Reacción</button>
+            </div>
+
+            <div id="resultado-quimico" class="reaction-result-display">
+                <span style="color: #718096;">Selecciona dos delanteros diferentes y haz clic en "Provocar Reacción" para activar la simulación cuántica.</span>
+            </div>
+        </div>
+
+        <!-- FINANZAS NEL -->
+        <div class="panel-box">
+            <h3>Subastas y Valores NEL</h3>
+            <div class="stat-row"><span>Rin Itoshi</span><span>¥ 180,000,000</span></div>
+            <div class="stat-row"><span>Yoichi Isagi</span><span>¥ 150,000,000</span></div>
+            <div class="stat-row"><span>Presupuesto Restante</span><span style="color: #00ff88 !important;">¥ 3,450,000,000</span></div>
+        </div>
+
+    </div>
+
+    <a href="registro.html" class="logout-btn">Desconectar del Sistema</a>
+    <script>
+        function calcularSinergia() {
+            const j1 = document.getElementById('jugador1').value;
+            const j2 = document.getElementById('jugador2').value;
+            const cajaResultado = document.getElementById('resultado-quimico');
+
+            if (j1 === j2) {
+                cajaResultado.innerHTML = "<span style='color: #ff2a5f; font-weight: bold;'>⚠️ ERROR EN EL SISTEMA: Un delantero no puede hacer una reacción química consigo mismo. El egoísmo extremo requiere un rival o aliado que devorar.</span>";
+                return;
+            }
+
+            cajaResultado.innerHTML = "<span style='color: #00d2ff; font-weight: bold;'>PROCESANDO COMBINACIÓN... DESTRUCTIVIDAD EN CURSO...</span>";
+
+            setTimeout(() => {
+                let formula = `${j1}-${j2}`;
+                let mensajeDestino = "";
+
+                if (formula === "isagi-bachira" || formula === "bachira-isagi") {
+                    mensajeDestino = "🧬 <strong>REACCIÓN QUÍMICA: Destrucción por Instinto Táctico.</strong><br>La Metavisión de Isagi lee el espacio mientras el regate monstruoso de Bachira rompe las líneas. <span style='color: #00ff88;'>¡Éxito del ataque: 95%! GOL ASEGURADO.</span>";
+                } 
+                else if (formula === "isagi-nagi" || formula === "nagi-isagi") {
+                    mensajeDestino = "🧩 <strong>REACCIÓN QUÍMICA: Genio Tridimensional.</strong><br>Isagi arrastra las marcas y lanza un pase al área. Nagi recibe con un control milagroso en el aire y fusila de volea. <span style='color: #00ff88;'>¡Éxito del ataque: 92%!</span>";
+                } 
+                else if (formula === "isagi-barou" || formula === "barou-isagi") {
+                    mensajeDestino = "👑 <strong>REACCIÓN QUÍMICA: Devoración Mutua (Modo Villano).</strong><br>Barou se niega a pasar el balón. Isagi usa los movimientos de Barou como carnada para anotar él mismo de tiro directo. <span style='color: #00ff88;'>¡Caos defensivo total: 89%!</span>";
+                } 
+                else if (formula === "bachira-nagi" || formula === "nagi-bachira") {
+                    mensajeDestino = "🔥 <strong>REACCIÓN QUÍMICA: Creatividad Explosiva Sin Patrón.</strong><br>Bachira lanza un centro impredecible impulsado por su trance. Nagi inventa una recepción con el tacón rompiendo la gravedad. <span style='color: #00ff88;'>¡Espectacularidad al máximo!</span>";
+                } 
+                else if (formula === "bachira-barou" || formula === "barou-bachira") {
+                    mensajeDestino = "⚡ <strong>REACCIÓN QUÍMICA: Choque de Egos Incompatibles.</strong><br>Barou exige el balón por la fuerza. La jugada se vuelve tosca pero la potencia física de Barou logra romper la portería. <span style='color: #ffbc00;'>Rendimiento inestable: 70%.</span>";
+                } 
+                else if (formula === "nagi-barou" || formula === "barou-nagi") {
+                    mensajeDestino = "❄️ <strong>REACCIÓN QUÍMICA: Genio vs Rey.</strong><br>Nagi juega con pasividad lo que enfurece a Barou. Barou corre, roba el balón a su propio compañero y saca un cañonazo desde 29 metros. <span style='color: #ffbc00;'>Ataque destructivo.</span>";
+                }
+
+                cajaResultado.innerHTML = mensajeDestino;
+            }, 800);
+        }
+    </script>
+</body>
+</html>

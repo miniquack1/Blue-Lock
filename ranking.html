@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Lock - Ránking de Egoístas</title>
+    <style>
+        /* Mismo diseño estético que la página principal */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b0f19;
+            color: #ffffff;
+            padding-top: 100px;
+        }
+
+        header {
+            background-color: rgba(11, 15, 25, 0.95);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid #0052cc;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: #00d2ff;
+            text-shadow: 0 0 10px #00d2ff;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: #00d2ff;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+        }
+
+        /* Tabla de posiciones de alta tecnología */
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #1a202c;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #2d3748;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            margin-bottom: 40px;
+        }
+
+        .ranking-table th, .ranking-table td {
+            padding: 15px 20px;
+            text-align: left;
+        }
+
+        .ranking-table th {
+            background-color: #0052cc;
+            color: white;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .ranking-table tr {
+            border-bottom: 1px solid #2d3748;
+            transition: 0.2s;
+        }
+
+        .ranking-table tr:hover {
+            background-color: #242f41;
+        }
+
+        .rank-number {
+            font-weight: bold;
+            color: #00d2ff;
+        }
+
+        .player-name {
+            font-weight: 600;
+        }
+
+        .status-up {
+            color: #00ff88;
+            font-weight: bold;
+        }
+
+        /* Botón de regreso rápido */
+        .back-btn {
+            display: block;
+            width: fit-content;
+            margin: 20px auto;
+            padding: 12px 30px;
+            background-color: transparent;
+            border: 2px solid #00d2ff;
+            color: #00d2ff;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background-color: #00d2ff;
+            color: #0b0f19;
+            box-shadow: 0 0 15px #00d2ff;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #080b12;
+            border-top: 1px solid #1a202c;
+            color: #718096;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Encabezado / Navegación conectado a la principal -->
+    <header>
+        <div class="logo">BLUE <span>LOCK</span></div>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="index.html#sinopsis">Proyecto</a>
+            <a href="index.html#personajes">Personajes</a>
+            <a href="#" class="active">Top Ránking</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Clasificación del Bloque Z</h1>
+        
+        <table class="ranking-table">
+            <thead>
+                <tr>
+                    <th>Puesto</th>
+                    <th>Delantero</th>
+                    <th>Arma Principal</th>
+                    <th>Tendencia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="rank-number">#001</td>
+                    <td class="player-name">Rin Itoshi</td>
+                    <td>Estrategia de Marionetas / Tiro Perfecto</td>
+                    <td class="status-up">▲ Estable</td>
+                </tr>
+                <tr>
+                    <td class="rank-number">#015</td>
+                    <td class="player-name">Yoichi Isagi</td>
+                    <td>Metavisión / Tiro Directo</td>
+                    <td class="status-up">▲ Sube (+50)</td>
+                </tr>
+                <tr>
+                    <td class="rank-number">#016</td>
+                    <td class="player-name">Meguru Bachira</td>
+                    <td>Regate Egoísta / Estado de Trance</td>
+                    <td class="status-up">▲ Sube (+12)</td>
+                </tr>
+                <tr>
+                    <td class="rank-number">#022</td>
+                    <td class="player-name">Seishiro Nagi</td>
+                    <td>Recepción Perfecta / Creatividad</td>
+                    <td class="status-up">▼ Baja (-2)</td>
+                </tr>
+                <tr>
+                    <td class="rank-number">#050</td>
+                    <td class="player-name">Barou Shoei</td>
+                    <td>Fuerza Física / Tiro de Larga Distancia</td>
+                    <td class="status-up">▲ Sube (+5)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="index.html" class="back-btn">← Volver a la Base</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Proyecto Blue Lock - Sección Clasificatoria.</p>
+    </footer>
+    <nav>
+    <a href="index.html">Inicio</a>
+    <a href="index.html#sinopsis">Proyecto</a>
+    <a href="#" class="active">Top Ránking</a>
+    <a href="registro.html">Unirse</a> <!-- Enlace a la nueva página -->
+    </nav>
+
+
+</body>
+</html>

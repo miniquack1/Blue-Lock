@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Lock - Terminal de Registros</title>
+    <style>
+        /* CONFIGURACIÓN VISUAL Y FORMULARIOS */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background-color: #0b0f19; color: #ffffff; padding-top: 90px; }
+
+        header {
+            background-color: #0b0f19; display: flex; justify-content: space-between;
+            align-items: center; padding: 20px 8%; position: fixed; width: 100%; top: 0;
+            border-bottom: 2px solid #0052cc; z-index: 1000;
+        }
+        .logo { font-size: 24px; font-weight: bold; }
+        .logo span { color: #00d2ff; }
+        nav a { color: #ffffff; text-decoration: none; margin-left: 20px; font-weight: bold; }
+
+        .container-forms {
+            max-width: 1200px; margin: 30px auto; padding: 0 20px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;
+        }
+        .form-box { background: #1a202c; border: 1px solid #2d3748; padding: 25px; border-radius: 8px; }
+        h2 { font-size: 1.3rem; margin-bottom: 20px; color: #00d2ff; border-left: 4px solid #0052cc; padding-left: 10px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 0.85rem; margin-bottom: 5px; color: #a0aec0; }
+        input, select, textarea { width: 100%; padding: 10px; background-color: #0f141c; border: 1px solid #4a5568; border-radius: 5px; color: #ffffff; }
+        
+        .submit-btn {
+            width: 100%; padding: 12px; background-color: #0052cc; color: white;
+            border: none; font-weight: bold; cursor: pointer; border-radius: 5px; text-transform: uppercase;
+        }
+        .submit-btn:hover { background-color: #00d2ff; color: #0b0f19; }
+
+        /* VENTANA FLOTANTE INTEGRADA */
+        .ego-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 7, 12, 0.95); display: none; justify-content: center; align-items: center; z-index: 2000;
+        }
+        .ego-modal { background: #111622; padding: 35px; border-radius: 12px; max-width: 500px; width: 90%; text-align: center; border: 3px solid #00d2ff; }
+        .spinner {
+            width: 40px; height: 40px; border: 4px solid rgba(0, 210, 255, 0.1); border-top: 4px solid #00d2ff;
+            border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 15px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .ego-avatar { font-size: 3rem; margin-bottom: 15px; }
+        .ego-title { font-size: 1.4rem; font-weight: bold; margin-bottom: 15px; }
+        .ego-msg { color: #cbd5e0; margin-bottom: 20px; line-height: 1.5; }
+        .ego-close-btn { background: #0052cc; color: white; padding: 10px 20px; border: none; font-weight: bold; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">BLUE <span>LOCK</span></div>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="ranking.html">Top Ránking</a>
+            <a href="#" style="color: #00d2ff;">Unirse</a>
+        </nav>
+    </header>
+    <div class="container-forms">
+        
+        <!-- FORMULARIO 1: POSTULACIÓN -->
+        <div class="form-box">
+            <h2>1. Formulario de Ingreso</h2>
+            <form id="formIngreso" onsubmit="activarPantalla(event, 'ingreso')">
+                <div class="form-group">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="nombre" placeholder="Ej. Yoichi Isagi" required>
+                </div>
+                <div class="form-group">
+                    <label>Edad (15-20)</label>
+                    <input type="number" id="edad" placeholder="17" required>
+                </div>
+                <div class="form-group">
+                    <label>¿Por qué quieres entrar?</label>
+                    <textarea id="motivacion" placeholder="Describe tu egoísmo..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Postular a Blue Lock</button>
+            </form>
+        </div>
+
+        <!-- FORMULARIO 2: FICHA MÉDICA -->
+        <div class="form-box">
+            <h2>2. Ficha Médica de Atleta</h2>
+            <form id="formFicha" onsubmit="activarPantalla(event, 'ficha')">
+                <div class="form-group">
+                    <label>Altura (cm) y Peso (kg)</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="number" id="altura" placeholder="175" required>
+                        <input type="number" id="peso" placeholder="68" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Pie Dominante</label>
+                    <select id="pie" required>
+                        <option value="Derecho">Derecho</option>
+                        <option value="Izquierdo">Izquierdo</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Comida de Recompensa Favorita</label>
+                    <input type="text" id="comida" placeholder="Ej. Filete, Natillas" required>
+                </div>
+                <button type="submit" class="submit-btn" style="background-color: #0088cc;">Registrar Biometría</button>
+            </form>
+        </div>
+
+        <!-- FORMULARIO 3: LOGIN ADMIN -->
+        <div class="form-box">
+            <h2>3. Acceso de Monitoreo</h2>
+            <form id="formAdmin" onsubmit="activarPantalla(event, 'admin')">
+                <div class="form-group">
+                    <label>ID de Administrador</label>
+                    <input type="text" id="usuario" placeholder="Ej. EGO-001" required>
+                </div>
+                <div class="form-group">
+                    <label>Contraseña Encriptada</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="submit-btn" style="background-color: #1a202c; border: 1px solid #0052cc;">Iniciar Sesión</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- PANTALLA DE CARGA Y VEREDICTO -->
+    <div id="ego-overlay" class="ego-overlay">
+        <div class="ego-modal" id="ego-modal">
+            <div id="loading-box">
+                <div class="spinner"></div>
+                <p id="loading-text" style="color: #00d2ff; font-weight: bold; letter-spacing: 2px;">PROCESANDO DATOS...</p>
+            </div>
+            <div id="ego-content" style="display: none;">
+                <div id="ego-avatar" class="ego-avatar">👓</div>
+                <div id="ego-title" class="ego-title">SISTEMA</div>
+                <div id="ego-msg" class="ego-msg">Mensaje temporal.</div>
+                <button id="ego-btn" class="ego-close-btn" onclick="cerrarFiltro()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Animación global de carga cuántica de 1.2 segundos
+        function activarPantalla(event, tipo) {
+            event.preventDefault();
+            const textos = { ingreso: "ANALIZANDO TU EGO...", ficha: "REGISTRANDO CUERPO...", admin: "COMPROBANDO PERMISOS..." };
+            
+            document.getElementById('loading-text').innerHTML = textos[tipo];
+            document.getElementById('ego-overlay').style.display = "flex";
+            document.getElementById('loading-box').style.display = "block";
+            document.getElementById('ego-content').style.display = "none";
+
+            setTimeout(() => {
+                document.getElementById('loading-box').style.display = "none";
+                document.getElementById('ego-content').style.display = "block";
+
+                if (tipo === 'ingreso') verificarIngreso();
+                if (tipo === 'ficha')   verificarFicha();
+                if (tipo === 'admin')   verificarAdmin();
+            }, 1200);
+        }
+
+        // Automatización rápida de actualización del recuadro (Modal)
+        function actualizarModal(borde, avatar, titulo, colorTitulo, mensaje) {
+            document.getElementById('ego-modal').style.borderColor = borde;
+            document.getElementById('ego-avatar').innerHTML = avatar;
+            const t = document.getElementById('ego-title');
+            t.innerHTML = titulo; t.style.color = colorTitulo;
+            document.getElementById('ego-msg').innerHTML = mensaje;
+        }
+
+        function verificarIngreso() {
+            const nombre = document.getElementById('nombre').value;
+            const edad = parseInt(document.getElementById('edad').value);
+            const motivacion = document.getElementById('motivacion').value.toLowerCase();
+            const btn = document.getElementById('ego-btn');
+
+            btn.onclick = cerrarFiltro; btn.innerHTML = "Cerrar";
+
+            if (edad < 15 || edad > 20) {
+                actualizarModal("#ff2a5f", "🚫", "RECHAZADO", "#ff2a5f", "Edad inválida. Blue Lock solo busca talentos Sub-20.");
+            } else if (["pase", "equipo", "ayudar"].some(p => motivacion.includes(p))) {
+                actualizarModal("#ff2a5f", "👹", "EGO INSUFICIENTE", "#ff2a5f", `Escúchame bien, ${nombre}: ¡Aquí destruimos el juego colectivo! No nos interesan tus pases.`);
+            } else {
+                actualizarModal("#00ff88", "⚽🔥", "EGO APROBADO", "#00ff88", `¡Bienvenido, ${nombre}! Has sido asignado al Bloque Z. Pasa al formulario 2 para registrar tus datos físicos.`);
+                document.getElementById('formIngreso').reset();
+            }
+        }
+
+        function verificarFicha() {
+            const alt = document.getElementById('altura').value;
+            const pes = document.getElementById('peso').value;
+            const pie = document.getElementById('pie').value;
+            const com = document.getElementById('comida').value;
+
+            document.getElementById('ego-btn').onclick = cerrarFiltro;
+            document.getElementById('ego-btn').innerHTML = "Cerrar";
+
+            actualizarModal("#00ff88", "🏃‍♂️📊", "BIOMETRÍA REGISTRADA", "#00ff88", 
+                `Datos guardados en el sistema:<br>• Talla y Peso: ${alt}cm / ${pes}kg.<br>• Disparo: Perfil ${pie}.<br>• Menú: ${com}.`);
+            document.getElementById('formFicha').reset();
+        }
+         function verificarAdmin() {
+            const user = document.getElementById('usuario').value.trim().toUpperCase();
+            const pass = document.getElementById('password').value;
+            const modal = document.getElementById('ego-modal');
+            const avatar = document.getElementById('ego-avatar');
+            const titulo = document.getElementById('ego-title');
+            const msg = document.getElementById('ego-msg');
+            const btn = document.getElementById('ego-btn');
+
+            // Lista oficial de IDs permitidos
+            const listaJugadores = ["BL-299", "BL-290", "BL-221", "BL-001"];
+
+            if (user === "EGO-001" && pass === "egoista123") {
+                modal.style.borderColor = "#00ff88"; avatar.innerHTML = "💻👑";
+                titulo.innerHTML = "ACCESO TOTAL"; titulo.style.color = "#00ff88";
+                msg.innerHTML = "Conexión de administrador establecida. Bienvenido, Jinpachi Ego.";
+                btn.innerHTML = "INGRESAR AL PANEL DE CONTROL";
+                btn.onclick = function() { window.location.href = "dashboard.html"; };
+                document.getElementById('formAdmin').reset();
+            } 
+            else if (listaJugadores.includes(user) && pass === "ego123") {
+                // GUARDA EL ID EN LA MEMORIA DEL NAVEGADOR ANTES DE REDIRIGIR
+                localStorage.setItem('jugadorActual', user);
+
+                modal.style.borderColor = "#00d2ff"; avatar.innerHTML = "⚽🏃‍♂️";
+                titulo.innerHTML = "JUGADOR DETECTADO"; titulo.style.color = "#00d2ff";
+                msg.innerHTML = `Identidad confirmada para el código <strong>${user}</strong>. Accediendo a tu base de datos privada.`;
+                btn.innerHTML = "VER MI RENDIMIENTO";
+                btn.onclick = function() { window.location.href = "jugador-panel.html"; };
+                document.getElementById('formAdmin').reset();
+            } 
+            else {
+                modal.style.borderColor = "#ff2a5f"; avatar.innerHTML = "🔒";
+                titulo.innerHTML = "ERROR DE ACCESO"; titulo.style.color = "#ff2a5f";
+                msg.innerHTML = "ID o contraseña incorrectos. Cortafuegos central activo.";
+                btn.innerHTML = "Cerrar";
+                btn.onclick = cerrarFiltro;
+            }
+        }
+                
+
+        function cerrarFiltro() {
+            document.getElementById('ego-overlay').style.display = "none";
+        }
+    </script>
+</body>
+</html>
